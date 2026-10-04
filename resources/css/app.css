@@ -1,0 +1,71 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme inline {
+    --font-sans:
+        'Segoe UI', system-ui, -apple-system, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+    --font-heading: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+
+    /* Brand palette (lihat docs/analisis: putih bersih + aksen) */
+    --color-brand-teal: #2baead;
+    --color-brand-green: #7cb300;
+
+    /* Tombol & tautan: varian gelap agar kontras teks putih memenuhi WCAG AA */
+    --color-primary: #1f7f7e;
+    --color-primary-foreground: #ffffff;
+    --color-success: #4f7300;
+    --color-success-foreground: #ffffff;
+
+    /* Status sertifikat (teks/ikon gelap + latar tint terang, kontras aman) */
+    --color-status-ok: #4f7300;
+    --color-status-ok-bg: #f1f8e4;
+    --color-status-warning: #b45309;
+    --color-status-warning-bg: #fef3e2;
+    --color-status-danger: #dc2626;
+    --color-status-danger-bg: #fef2f2;
+    --color-status-muted: #6b7280;
+    --color-status-muted-bg: #f3f4f6;
+
+    /* Netral / permukaan (gaya "putih bersih") */
+    --color-background: #ffffff;
+    --color-surface: #ffffff;
+    --color-sidebar: #ffffff;
+    --color-border: #e5e7eb;
+    --color-muted: #f3f4f6;
+    --color-muted-foreground: #6b7280;
+    --color-foreground: #111827;
+
+    /* Grafik */
+    --color-chart-1: #2baead;
+    --color-chart-2: #7cb300;
+    --color-chart-3: #b45309;
+    --color-chart-4: #dc2626;
+    --color-chart-5: #6b7280;
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-heading {
+    font-family: var(--font-heading);
+    font-weight: 800;
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    .print-area {
+        padding: 0 !important;
+    }
+}
