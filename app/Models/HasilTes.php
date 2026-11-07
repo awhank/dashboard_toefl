@@ -47,6 +47,8 @@ class HasilTes extends Model
     /** @use HasFactory<HasilTesFactory> */
     use HasFactory;
 
+    protected $table = 'hasil_tes';
+
     /**
      * Get the attributes that should be cast.
      *

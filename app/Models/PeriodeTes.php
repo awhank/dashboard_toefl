@@ -38,6 +38,8 @@ class PeriodeTes extends Model
     /** @use HasFactory<PeriodeTesFactory> */
     use HasFactory;
 
+    protected $table = 'periode_tes';
+
     /**
      * Get the attributes that should be cast.
      *

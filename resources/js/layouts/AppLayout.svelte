@@ -65,6 +65,17 @@
         pimpinan: 'Pimpinan',
         pegawai: 'Pegawai',
     };
+
+    const navUrls: Record<string, string> = {
+        dashboard: '/dashboard',
+        kandidat: '#kandidat',
+        pegawai: '/pegawai',
+        periode: '#periode',
+        'jenis-tes': '#jenis-tes',
+        'target-skor': '#target-skor',
+        pengguna: '#pengguna',
+        profil: '/profil',
+    };
 </script>
 
 <div class="min-h-screen bg-muted/40 md:flex">
@@ -115,7 +126,7 @@
                             {@const isActive = active === item.key}
                             <li>
                                 <a
-                                    href="#{item.key}"
+                                    href={navUrls[item.key] ?? ('#' + item.key)}
                                     title={collapsed ? item.label : undefined}
                                     class="group flex items-center gap-3 rounded-md px-2.5 py-2 text-sm transition-colors
                                     {isActive

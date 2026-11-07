@@ -73,4 +73,22 @@ class Pegawai extends Model
     {
         return $this->hasMany(HasilTes::class);
     }
+
+    /**
+     * Hasil tes ITP (resmi) paling mutakhir milik pegawai.
+     *
+     * @return HasOne<HasilTes, $this>
+     */
+    public function latestHasilTesItp(): HasOne
+    {
+        return $this->hasOne(HasilTes::class)
+            ->ofMany([
+                'tanggal_tes' => 'max',
+                'id' => 'max',
+            ], function ($query) {
+                $query->whereHas('periodeTes.jenisTes', function ($q) {
+                    $q->where('is_resmi', true);
+                });
+            });
+    }
 }

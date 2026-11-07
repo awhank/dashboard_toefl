@@ -37,6 +37,8 @@ class JenisTes extends Model
     /** @use HasFactory<JenisTesFactory> */
     use HasFactory;
 
+    protected $table = 'jenis_tes';
+
     /**
      * Get the attributes that should be cast.
      *

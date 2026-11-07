@@ -128,12 +128,11 @@ ITP terbaru per pegawai dihitung dengan window function `ROW_NUMBER() OVER (PART
       — **belum dijalankan/dikonfirmasi**, tunggu `php artisan db:seed` oleh pengguna
 - [x] Tambah kolom `tanggal_lahir` (nullable) di tabel `pegawai` — migration `2026_09_19_000001`,
       sudah disinkronkan ke Model, Fillable, cast, dan `PegawaiFactory`
-- [~] **Perbaikan nama tabel eksplisit** (`protected $table`) — nama kelas model berbahasa Indonesia
+- [x] **Perbaikan nama tabel eksplisit** (`protected $table`) — nama kelas model berbahasa Indonesia
       (mis. `JenisTes`, `TargetSkor`) tidak selalu ditebak Eloquent dengan benar (pluralisasi bahasa Inggris).
-      Sudah diperbaiki: `Pegawai` (→ `pegawai`), `TargetSkor` (→ `target_skor`).
-      **Masih perlu dicek/diperbaiki**: `JenisTes`, `PeriodeTes`, `HasilTes` (kemungkinan besar salah tebak
-      karena berakhiran "Tes"); `ImportBatch` kemungkinan sudah benar (pluralisasi "Batch"→"Batches" wajar).
-      Cek sebelum menjalankan seeder — kalau salah, `php artisan db:seed` akan error "table not found".
+      Sudah diperbaiki dan dipastikan: `Pegawai` (→ `pegawai`), `TargetSkor` (→ `target_skor`),
+      `JenisTes` (→ `jenis_tes`), `PeriodeTes` (→ `periode_tes`), `HasilTes` (→ `hasil_tes`),
+      `ImportBatch` (→ `import_batches`).
 - [x] Autentikasi: login NIP (`auth/Login.svelte` + `LoginController` + `LoginRequest` dengan rate limit 5x),
       wajib ganti password di login pertama (`auth/GantiPassword.svelte` + `PasswordController` +
       middleware `EnsurePasswordIsChanged`), middleware peran (`EnsureUserHasRole`, alias `role:admin,pimpinan`),
@@ -141,9 +140,11 @@ ITP terbaru per pegawai dihitung dengan window function `ROW_NUMBER() OVER (PART
       `AppLayout` & `Dashboard` kini pakai data pengguna asli dari `page.props.auth.user` (bukan hardcoded).
       Halaman `Profil` baru placeholder minimal. **Belum dicoba login sungguhan di browser** — baru lolos
       `php -l`, Pint, dan `svelte-check` (0 error/warning di 191 file); PHPStan belum sempat dijalankan.
-- [ ] Halaman Master Data (Pegawai, Jenis Tes, Target Skor, Pengguna)
+- [x] Sambungkan Dashboard ke data asli (`StatusSertifikatService` & `DashboardStatsService`) + filter tanggal acuan dinamis
+- [x] Modul Master Pegawai: CRUD lengkap, auto-create user login, nonaktifkan/aktifkan lifecycle, reset password (`PegawaiController`, form requests, & `resources/js/Pages/Pegawai/Index.svelte`)
+- [x] Fitur Impor Data Pegawai Massal via Excel: modal upload, deteksi cerdas DUK Kemenkes & Template Standar, pembuat template Excel, dan integrasi backend (`ImportPegawaiService`, `PegawaiController@import`, `PegawaiController@downloadTemplate`)
+- [ ] Halaman Master Data lainnya (Jenis Tes, Target Skor, Pengguna)
 - [ ] Halaman Periode Tes + impor Excel + form manual input hasil
-- [ ] Sambungkan Dashboard ke data asli (`DashboardStatsService`)
 - [ ] Halaman Kandidat Peserta Prioritas + ekspor Excel
 - [ ] Halaman Data Pegawai & riwayat tes
 - [ ] Halaman Profil pegawai

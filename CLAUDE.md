@@ -11,12 +11,11 @@ dashboard only (any earlier mention of Ollama in project notes is stale).
 **Read `docs/analisis-kebutuhan.md` first** — it is the source of truth for business rules, database design, UI
 decisions, and a progress checklist. Keep it updated as work continues; do not rely on chat history alone.
 
-Current state (see the doc's checklist for detail): database migrations exist for `pegawai`, `users` (modified —
-no email, NIP-based `username`/`role`), `jenis_tes`, `periode_tes`, `import_batches`, `hasil_tes`, `target_skor`.
-A design-preview `Dashboard` page exists at route `/dashboard` (`resources/js/pages/Dashboard.svelte`) using sample
-data and hand-built UI components (`resources/js/layouts/AppLayout.svelte`, `resources/js/components/*`) — not yet
-wired to the database, and not yet using real shadcn-svelte components. No auth, models, seeders, or other pages
-have been built yet.
+Current state (see docs/analisis-kebutuhan.md for full checklist):
+- Database migrations, models (with explicit table names), seeders, auth (login NIP, first password change), and Docker Compose environment (Laravel Sail) are fully ready.
+- StatusSertifikatService & DashboardStatsService are implemented; Dashboard.svelte is wired to real database statistics and interactive reference date filtering.
+- Modul Master Pegawai is implemented: CRUD, auto-create user login, toggle active/inactive lifecycle, reset password (PegawaiController, StorePegawaiRequest, UpdatePegawaiRequest, NonaktifkanPegawaiRequest, and resources/js/Pages/Pegawai/Index.svelte).
+- Next agenda when resuming: **Fitur Impor Data Pegawai Massal via Excel** (referencing templatedokumen/daftar_pegawai.xlsx).
 
 Not a git repository, and there is no README.
 

@@ -36,6 +36,8 @@ class ImportBatch extends Model
     /** @use HasFactory<ImportBatchFactory> */
     use HasFactory;
 
+    protected $table = 'import_batches';
+
     /**
      * @return BelongsTo<PeriodeTes, $this>
      */

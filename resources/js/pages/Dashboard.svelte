@@ -7,49 +7,55 @@
     import DonutChart from '@/components/DonutChart.svelte';
     import BarChart from '@/components/BarChart.svelte';
     import Icon from '@/components/Icon.svelte';
+    import { router } from '@inertiajs/svelte';
 
-    // Data contoh untuk pratinjau desain — akan diganti data asli dari controller.
-    const kpi = {
-        pegawaiAktif: 204,
-        belumTesItp: 87,
-        capaiTarget: 64,
-        perluPerhatian: 17, // expired + akan expired
-    };
+    interface Props {
+        tanggalAcuan: string;
+        kpi: {
+            pegawaiAktif: number;
+            belumTesItp: number;
+            capaiTarget: number;
+            perluPerhatian: number;
+            targetSkorMinimal: number;
+            tahunAcuan: number;
+        };
+        capaiTargetSegments: Array<{ label: string; value: number; color: string }>;
+        statusSertifikatSegments: Array<{ label: string; value: number; color: string }>;
+        trenPeserta: Array<{ label: string; value: number }>;
+        rataRataBagian: Array<{ label: string; value: number }>;
+        kandidatPrioritas: Array<{
+            nama: string;
+            unit: string;
+            alasan: string;
+            tone: 'primary' | 'muted' | 'ok' | 'warning' | 'danger';
+        }>;
+    }
 
-    const capaiTargetSegments = [
-        { label: 'Capai target (≥ 500)', value: 64, color: 'var(--color-brand-green)' },
-        { label: 'Belum capai target', value: 53, color: 'var(--color-muted-foreground)' },
-    ];
+    let {
+        tanggalAcuan,
+        kpi,
+        capaiTargetSegments,
+        statusSertifikatSegments,
+        trenPeserta,
+        rataRataBagian,
+        kandidatPrioritas,
+    }: Props = $props();
 
-    const statusSertifikatSegments = [
-        { label: 'Berlaku', value: 89, color: 'var(--color-status-ok)' },
-        { label: 'Akan expired (≤ 3 bln)', value: 12, color: 'var(--color-status-warning)' },
-        { label: 'Expired', value: 16, color: 'var(--color-status-danger)' },
-        { label: 'Belum pernah tes ITP', value: 87, color: 'var(--color-status-muted)' },
-    ];
+    let selectedTanggalAcuan = $state('');
 
-    const trenPeserta = [
-        { label: '2023 G1', value: 42 },
-        { label: '2023 G2', value: 38 },
-        { label: '2024 G1', value: 51 },
-        { label: '2024 G2', value: 45 },
-        { label: '2025 G1', value: 60 },
-    ];
+    $effect(() => {
+        selectedTanggalAcuan = tanggalAcuan;
+    });
 
-    const rataRataBagian = [
-        { label: 'Listening', value: 52 },
-        { label: 'Structure', value: 49 },
-        { label: 'Reading', value: 50 },
-    ];
-
-    const kandidatPrioritas = [
-        { nama: 'Muhammad Fadli', unit: 'Dosen', alasan: 'Belum pernah tes', tone: 'muted' as const },
-        { nama: 'Siti Rahmawati', unit: 'Tendik', alasan: 'Expired 14 hari lalu', tone: 'danger' as const },
-        { nama: 'Ahmad Zaini', unit: 'Dosen', alasan: 'Akan expired 20 hari lagi', tone: 'warning' as const },
-        { nama: 'Norhidayah', unit: 'Dosen', alasan: 'Skor 470, belum capai target', tone: 'warning' as const },
-    ];
-
-    let tanggalAcuan = $state(new Date().toISOString().slice(0, 10));
+    function onTanggalChange() {
+        if (selectedTanggalAcuan && selectedTanggalAcuan !== tanggalAcuan) {
+            router.get(
+                '/dashboard',
+                { tanggal_acuan: selectedTanggalAcuan },
+                { preserveState: true, preserveScroll: true, replace: true },
+            );
+        }
+    }
 </script>
 
 <AppHead title="Dashboard">
@@ -67,7 +73,8 @@
             Tgl acuan
             <input
                 type="date"
-                bind:value={tanggalAcuan}
+                bind:value={selectedTanggalAcuan}
+                onchange={onTanggalChange}
                 class="rounded-md border border-border px-2 py-1.5 text-sm text-foreground focus:border-brand-teal focus:ring-1 focus:ring-brand-teal focus:outline-none"
             />
         </label>
@@ -95,7 +102,7 @@
                 icon="check-circle"
                 label="Capai Target Skor"
                 value={kpi.capaiTarget}
-                hint="Target tahun 2026: ≥ 500"
+                hint={`Target tahun ${kpi.tahunAcuan}: ≥ ${kpi.targetSkorMinimal}`}
                 tone="ok"
             />
             <StatCard
@@ -123,7 +130,11 @@
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <Card>
                 <h2 class="font-heading mb-4 text-base text-foreground">Tren Jumlah Peserta per Periode</h2>
-                <BarChart bars={trenPeserta} color="var(--color-brand-teal)" />
+                {#if trenPeserta.length > 0}
+                    <BarChart bars={trenPeserta} color="var(--color-brand-teal)" />
+                {:else}
+                    <p class="py-12 text-center text-sm text-muted-foreground">Belum ada data periode tes resmi.</p>
+                {/if}
             </Card>
 
             <Card>
@@ -148,15 +159,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {#each kandidatPrioritas as k (k.nama)}
-                            <tr class="border-b border-border last:border-0">
-                                <td class="py-2.5 pr-4 font-medium text-foreground">{k.nama}</td>
-                                <td class="py-2.5 pr-4 text-muted-foreground">{k.unit}</td>
-                                <td class="py-2.5 pr-4">
-                                    <Badge tone={k.tone}>{k.alasan}</Badge>
+                        {#if kandidatPrioritas.length === 0}
+                            <tr>
+                                <td colspan="3" class="py-6 text-center text-sm text-muted-foreground">
+                                    Semua pegawai telah mencapai target dan memiliki sertifikat aktif.
                                 </td>
                             </tr>
-                        {/each}
+                        {:else}
+                            {#each kandidatPrioritas as k (k.nama)}
+                                <tr class="border-b border-border last:border-0">
+                                    <td class="py-2.5 pr-4 font-medium text-foreground">{k.nama}</td>
+                                    <td class="py-2.5 pr-4 text-muted-foreground">{k.unit}</td>
+                                    <td class="py-2.5 pr-4">
+                                        <Badge tone={k.tone}>{k.alasan}</Badge>
+                                    </td>
+                                </tr>
+                            {/each}
+                        {/if}
                     </tbody>
                 </table>
             </div>
