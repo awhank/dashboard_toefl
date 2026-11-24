@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\PeriodeTesController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/dashboard', DashboardController::class)->name('dashboard');
             Route::get('/pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
             Route::get('/pegawai/template-import', [PegawaiController::class, 'downloadTemplate'])->name('pegawai.template-import');
+            Route::get('/periode-tes', [PeriodeTesController::class, 'index'])->name('periode-tes.index');
 
             Route::middleware('role:admin')->group(function () {
                 Route::post('/pegawai', [PegawaiController::class, 'store'])->name('pegawai.store');
@@ -46,6 +48,9 @@ Route::middleware('auth')->group(function () {
                 Route::post('/pegawai/{pegawai}/nonaktifkan', [PegawaiController::class, 'nonaktifkan'])->name('pegawai.nonaktifkan');
                 Route::post('/pegawai/{pegawai}/aktifkan', [PegawaiController::class, 'aktifkan'])->name('pegawai.aktifkan');
                 Route::post('/pegawai/{pegawai}/reset-password', [PegawaiController::class, 'resetPassword'])->name('pegawai.reset-password');
+                Route::post('/periode-tes', [PeriodeTesController::class, 'store'])->name('periode-tes.store');
+                Route::put('/periode-tes/{periodeTes}', [PeriodeTesController::class, 'update'])->name('periode-tes.update');
+                Route::delete('/periode-tes/{periodeTes}', [PeriodeTesController::class, 'destroy'])->name('periode-tes.destroy');
             });
         });
     });
