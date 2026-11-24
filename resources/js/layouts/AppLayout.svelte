@@ -70,9 +70,9 @@
         dashboard: '/dashboard',
         kandidat: '#kandidat',
         pegawai: '/pegawai',
-        periode: '#periode',
-        'jenis-tes': '#jenis-tes',
-        'target-skor': '#target-skor',
+        periode: '/periode-tes',
+        // 'jenis-tes': '#jenis-tes',
+        // 'target-skor': '#target-skor',
         pengguna: '#pengguna',
         profil: '/profil',
     };
