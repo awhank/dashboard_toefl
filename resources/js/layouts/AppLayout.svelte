@@ -71,7 +71,7 @@
         kandidat: '#kandidat',
         pegawai: '/pegawai',
         periode: '/periode-tes',
-        // 'jenis-tes': '#jenis-tes',
+        'jenis-tes': '/jenis-tes',
         // 'target-skor': '#target-skor',
         pengguna: '#pengguna',
         profil: '/profil',

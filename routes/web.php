@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JenisTesController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PeriodeTesController;
 use App\Models\User;
@@ -48,6 +49,10 @@ Route::middleware('auth')->group(function () {
                 Route::post('/pegawai/{pegawai}/nonaktifkan', [PegawaiController::class, 'nonaktifkan'])->name('pegawai.nonaktifkan');
                 Route::post('/pegawai/{pegawai}/aktifkan', [PegawaiController::class, 'aktifkan'])->name('pegawai.aktifkan');
                 Route::post('/pegawai/{pegawai}/reset-password', [PegawaiController::class, 'resetPassword'])->name('pegawai.reset-password');
+                Route::get('/jenis-tes', [JenisTesController::class, 'index'])->name('jenis-tes.index');
+                Route::post('/jenis-tes', [JenisTesController::class, 'store'])->name('jenis-tes.store');
+                Route::put('/jenis-tes/{jenisTes}', [JenisTesController::class, 'update'])->name('jenis-tes.update');
+                Route::delete('/jenis-tes/{jenisTes}', [JenisTesController::class, 'destroy'])->name('jenis-tes.destroy');
                 Route::post('/periode-tes', [PeriodeTesController::class, 'store'])->name('periode-tes.store');
                 Route::put('/periode-tes/{periodeTes}', [PeriodeTesController::class, 'update'])->name('periode-tes.update');
                 Route::delete('/periode-tes/{periodeTes}', [PeriodeTesController::class, 'destroy'])->name('periode-tes.destroy');
