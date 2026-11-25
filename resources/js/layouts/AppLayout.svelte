@@ -39,6 +39,7 @@
                 { key: 'kandidat', label: 'Kandidat Peserta', icon: 'clipboard-list', roles: ['admin', 'pimpinan'] },
                 { key: 'pegawai', label: 'Data Pegawai', icon: 'users', roles: ['admin', 'pimpinan'] },
                 { key: 'periode', label: 'Periode Tes', icon: 'calendar', roles: ['admin', 'pimpinan'] },
+                { key: 'hasil-tes', label: 'Hasil Tes', icon: 'file-spreadsheet', roles: ['admin', 'pimpinan'] },
             ],
         },
         {
@@ -71,6 +72,7 @@
         kandidat: '#kandidat',
         pegawai: '/pegawai',
         periode: '/periode-tes',
+        'hasil-tes': '/hasil-tes',
         'jenis-tes': '/jenis-tes',
         // 'target-skor': '#target-skor',
         pengguna: '#pengguna',
